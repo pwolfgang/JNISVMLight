@@ -9,19 +9,19 @@ extern "C" {
 #endif
 /*
  * Class:     edu_temple_cla_wolfgang_jnisvmlight_SVMLight
- * Method:    svmTrain
- * Signature: (Ledu/temple/cla/wolfgang/jnisvmlight/SVMProblem;Ledu/temple/cla/wolfgang/jnisvmlight/SVMParameter;)Ledu/temple/cla/wolfgang/jnisvmlight/SVMModel;
+ * Method:    SVMLearn
+ * Signature: ([Ledu/temple/cla/wolfgang/jnisvmlight/Doc;[D)Ledu/temple/cla/wolfgang/jnisvmlight/Model;
  */
-JNIEXPORT jobject JNICALL Java_edu_temple_cla_wolfgang_jnisvmlight_SVMLight_svmTrain
-  (JNIEnv *, jobject, jobject, jobject);
+JNIEXPORT jobject JNICALL Java_edu_temple_cla_wolfgang_jnisvmlight_SVMLight_SVMLearn
+  (JNIEnv *, jobject, jobject, jdoubleArray);
 
 /*
  * Class:     edu_temple_cla_wolfgang_jnisvmlight_SVMLight
- * Method:    svmPredict
- * Signature: (Ledu/temple/cla/wolfgang/jnisvmlight/SVMModel;[Ledu/temple/cla/wolfgang/jnisvmlight/SVMNode;)D
+ * Method:    SVMClassify
+ * Signature: (Ledu/temple/cla/wolfgang/jnisvmlight/Model;[Ledu/temple/cla/wolfgang/jnisvmlight/Doc;)[D
  */
-JNIEXPORT jdouble JNICALL Java_edu_temple_cla_wolfgang_jnisvmlight_SVMLight_svmPredict
-  (JNIEnv *, jobject, jobject, jobjectArray);
+JNIEXPORT jdoubleArray JNICALL Java_edu_temple_cla_wolfgang_jnisvmlight_SVMLight_SVMClassify
+  (JNIEnv *, jobject, jobject, jobject);
 
 #ifdef __cplusplus
 }

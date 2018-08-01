@@ -104,16 +104,19 @@
                         <source>
                             <directory>src/main/native/include</directory>
                         </source>
+                        <source>
+                             <directory>../svm_light_602</directory>                           
+                        </source>
                     </sources>
                     <compilerProvider>generic-classic</compilerProvider>
                     <compilerExecutable>gcc</compilerExecutable>
  
                     <compilerStartOptions>
                         <compilerStartOption>-m64</compilerStartOption>
+                        <compilerStartOption>-std=c99</compilerStartOption>
                         <compilerStartOption>-fpic</compilerStartOption>
                         <compilerStartOption>-Wall</compilerStartOption>
                         <compilerStartOption>-Wextra</compilerStartOption>
-                        <compilerStartOption>-ansi</compilerStartOption>
                         <compilerStartOption>-g</compilerStartOption>
                         <compilerStartOption>-O3</compilerStartOption>
                     </compilerStartOptions>
@@ -124,11 +127,13 @@
                     <linkerStartOptions>
                         <linkerStartOption>-m64</linkerStartOption>
                         <linkerStartOption>-shared</linkerStartOption>
+                        <linkerStartOption>-L../svm_light_602</linkerStartOption>
                     </linkerStartOptions>
  
                     <linkerFinalName></linkerFinalName>
  
                     <linkerEndOptions>
+                        <linkerEndOption>-lsvmlight</linkerEndOption>
                         <linkerEndOption>-o ${project.build.directory}/${lib_name}</linkerEndOption>
                     </linkerEndOptions>
                 </configuration>

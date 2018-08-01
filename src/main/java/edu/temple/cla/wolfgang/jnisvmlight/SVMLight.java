@@ -5,14 +5,18 @@
  */
 package edu.temple.cla.wolfgang.jnisvmlight;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.SortedMap;
+
 /**
  *
  * @author Paul
  */
 public class SVMLight {
+
+    public native Model SVMLearn(List<SortedMap<Integer, Double>> x, double[] lables);
     
-    public native SVMModel svmTrain(SVMProblem problem, SVMParameter param);
-    
-    public native double svmPredict(SVMModel model, SVMNode[] x);
-    
+    public native double[] SVMClassify(Model model, List<SortedMap<Integer, Double>> x);
+        
 }
