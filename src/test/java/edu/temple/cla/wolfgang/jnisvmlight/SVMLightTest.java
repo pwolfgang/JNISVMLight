@@ -30,7 +30,7 @@ public class SVMLightTest {
     public void testSvmTrain() {
         SVMProblem problem = buildProblem(testData);
         SVMLight svmLight = new SVMLight();
-        svmLight.SVMLearn(problem.x, problem.y);
+        svmLight.SVMLearn(problem.x, problem.y, "testModelFile");
     }
 
     String classificationData = "0 1:0.4405725913859815 2:2.2479275134435857 "

@@ -36,11 +36,10 @@ package edu.temple.cla.wolfgang.jnisvmlight;
  * @author Paul
  */
 public class KernelParam {
-  public int    kernel_type;   /* 0=linear, 1=poly, 2=rbf, 3=sigmoid, 4=custom */
-  public int    poly_degree;
-  public double  rbf_gamma;
-  public double  coef_lin;
-  public double  coef_const;
-  String custom;    /* for user supplied kernel */
-    
+  public int    kerneType;   /* 0=linear, 1=poly, 2=rbf, 3=sigmoid, 4=custom */
+  public int    polyDegree;
+  public double  rbfGamma;
+  public double  coefLin;
+  public double  coefConst;
+  String custom;    /* for user supplied kernel */    
 }

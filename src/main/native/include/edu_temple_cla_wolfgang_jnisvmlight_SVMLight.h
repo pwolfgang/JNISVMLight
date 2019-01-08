@@ -10,18 +10,18 @@ extern "C" {
 /*
  * Class:     edu_temple_cla_wolfgang_jnisvmlight_SVMLight
  * Method:    SVMLearn
- * Signature: ([Ledu/temple/cla/wolfgang/jnisvmlight/Doc;[D)Ledu/temple/cla/wolfgang/jnisvmlight/Model;
+ * Signature: (Ljava/util/List;[DLjava/lang/String;)V
  */
-JNIEXPORT jobject JNICALL Java_edu_temple_cla_wolfgang_jnisvmlight_SVMLight_SVMLearn
-  (JNIEnv *, jobject, jobject, jdoubleArray);
+JNIEXPORT void JNICALL Java_edu_temple_cla_wolfgang_jnisvmlight_SVMLight_SVMLearn
+  (JNIEnv *, jobject, jobject, jdoubleArray, jstring);
 
 /*
  * Class:     edu_temple_cla_wolfgang_jnisvmlight_SVMLight
  * Method:    SVMClassify
- * Signature: (Ledu/temple/cla/wolfgang/jnisvmlight/Model;[Ledu/temple/cla/wolfgang/jnisvmlight/Doc;)[D
+ * Signature: (Ljava/lang/String;Ljava/util/List;)[D
  */
 JNIEXPORT jdoubleArray JNICALL Java_edu_temple_cla_wolfgang_jnisvmlight_SVMLight_SVMClassify
-  (JNIEnv *, jobject, jobject, jobject);
+  (JNIEnv *, jobject, jstring, jobject);
 
 #ifdef __cplusplus
 }

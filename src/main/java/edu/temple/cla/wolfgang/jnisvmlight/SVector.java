@@ -37,7 +37,7 @@ package edu.temple.cla.wolfgang.jnisvmlight;
  */
 public class SVector {
     
-  public Word[]    words;      /* The features/values in the vector by
+  public Word[] words;         /* The features/values in the vector by
 				  increasing feature-number. Feature
 				  numbers that are skipped are
 				  interpreted as having value zero. */
@@ -60,7 +60,7 @@ public class SVector {
 				  are a sum of several different
 				  weight vectors. (currently not
 				  implemented). */
-  public SVector  next;        /* Let's you set up a list of SVECTOR's
+  public Object  next;         /* Let's you set up a list of SVECTOR's
 				  for linear constraints which are a
 				  sum of multiple feature
 				  vectors. List is terminated by

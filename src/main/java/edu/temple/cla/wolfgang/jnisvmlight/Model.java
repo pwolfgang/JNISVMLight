@@ -39,11 +39,10 @@ public class Model {
   public int      sv_num;	
   public int      at_upper_bound;
   public double   b;
-  public Doc[][]  supvec;
+  public Doc[]    supvec;
   public double[] alpha;
-  public int[]    index;       /* index from docnum to position in model */
-  public int    totwords;     /* number of features */
-  public int    totdoc;       /* number of training documents */
-  KernelParam   kernel_parm; /* kernel */
-    
+  public int[]    index;        /* index from docnum to position in model */
+  public int      totwords;     /* number of features */
+  public int      totdoc;       /* number of training documents */
+  KernelParam     kernel_parm;  /* kernel */    
 }

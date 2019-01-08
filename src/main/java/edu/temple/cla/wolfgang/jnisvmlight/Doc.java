@@ -55,7 +55,7 @@ public class Doc {
 				  same slackid share the same slack
 				  variable. This can only be used for
 				  svm_learn_optimization. */
-  SVector[] fvec;              /* Feature vector of the example. The
+  SVector[] fVec;              /* Feature vector of the example. The
 				  feature vector can actually be a
 				  list of feature vectors. For
 				  example, the list will have two

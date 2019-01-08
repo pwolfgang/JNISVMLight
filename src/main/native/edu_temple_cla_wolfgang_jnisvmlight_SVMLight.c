@@ -1,10 +1,24 @@
 #include "edu_temple_cla_wolfgang_jnisvmlight_SVMLight.h"
 #include "svm_common.h"
 #include <stdio.h>
+DOC** build_docs(JNIEnv*, jobject);
 void print_doc(DOC*);
 void print_svector(SVECTOR*);
-JNIEXPORT jobject JNICALL Java_edu_temple_cla_wolfgang_jnisvmlight_SVMLight_SVMLearn
-  (JNIEnv *env, jobject thiz, jobject x, jdoubleArray jlables) {
+int num_vectors;
+/*
+ * Class:     edu_temple_cla_wolfgang_jnisvmlight_SVMLight
+ * Method:    SVMLearn
+ * Signature: (Ljava/util/List;[DLjava/lang/String;)V
+ */
+JNIEXPORT void JNICALL Java_edu_temple_cla_wolfgang_jnisvmlight_SVMLight_SVMLearn
+  (JNIEnv *env, jobject thiz, jobject attributeSets, jdoubleArray lables, jstring modelFile) {
+    DOC **docs = build_docs(env, attributeSets);
+    for (int i = 0; i < num_vectors; ++i) {
+        print_doc(docs[i]);
+    }
+}
+
+DOC** build_docs(JNIEnv *env, jobject x) {
     jclass list_class = (*env)->FindClass(env, "Ljava/util/List;");
     jmethodID list_get = (*env)->GetMethodID(env, list_class, "get", "(I)Ljava/lang/Object;");
     jmethodID list_size = (*env)->GetMethodID(env, list_class, "size", "()I");
@@ -23,7 +37,7 @@ JNIEXPORT jobject JNICALL Java_edu_temple_cla_wolfgang_jnisvmlight_SVMLight_SVML
     jmethodID int_value = (*env)->GetMethodID(env, integer_class, "intValue", "()I");
     jclass double_class = (*env)->FindClass(env, "Ljava/lang/Double;");
     jmethodID float_value = (*env)->GetMethodID(env, double_class, "floatValue", "()F");
-    int num_vectors = (*env)->CallIntMethod(env, x, list_size);
+    num_vectors = (*env)->CallIntMethod(env, x, list_size);
     DOC **docs = (DOC**)malloc((num_vectors + 1)*sizeof(DOC*));
     double *clables = (double*)malloc((num_vectors + 1)*sizeof(double));
     for (int i = 0; i < num_vectors; ++i) {
@@ -46,10 +60,7 @@ JNIEXPORT jobject JNICALL Java_edu_temple_cla_wolfgang_jnisvmlight_SVMLight_SVML
         docs[i] = create_example(i, 0, 0, 1, create_svector(words, "", 1.0));
         free(words);
     }
-    for (int i = 0; i < num_vectors; ++i) {
-        print_doc(docs[i]);
-    }
-    return 0;
+    return docs;
 }
 
 void print_doc(DOC* doc) {
@@ -66,4 +77,15 @@ void print_svector(SVECTOR* svect) {
     }
     fprintf(stderr,"\n");
 }
+
+/*
+ * Class:     edu_temple_cla_wolfgang_jnisvmlight_SVMLight
+ * Method:    SVMClassify
+ * Signature: (Ljava/lang/String;Ljava/util/List;)[D
+ */
+JNIEXPORT jdoubleArray JNICALL Java_edu_temple_cla_wolfgang_jnisvmlight_SVMLight_SVMClassify
+  (JNIEnv *env, jobject thiz, jstring modelFile, jobject attributeSets) {
+    return NULL;
+}
+
 
