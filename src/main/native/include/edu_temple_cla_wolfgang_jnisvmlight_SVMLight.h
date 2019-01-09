@@ -10,10 +10,10 @@ extern "C" {
 /*
  * Class:     edu_temple_cla_wolfgang_jnisvmlight_SVMLight
  * Method:    SVMLearn
- * Signature: (Ljava/util/List;[DLjava/lang/String;)V
+ * Signature: (Ljava/util/List;[DILjava/lang/String;)V
  */
 JNIEXPORT void JNICALL Java_edu_temple_cla_wolfgang_jnisvmlight_SVMLight_SVMLearn
-  (JNIEnv *, jobject, jobject, jdoubleArray, jstring);
+  (JNIEnv *, jobject, jobject, jdoubleArray, jint, jint, jstring);
 
 /*
  * Class:     edu_temple_cla_wolfgang_jnisvmlight_SVMLight

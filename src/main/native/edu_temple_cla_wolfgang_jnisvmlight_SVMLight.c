@@ -2,6 +2,7 @@
 #include "svm_common.h"
 #include <stdio.h>
 DOC** build_docs(JNIEnv*, jobject);
+void create_defaults(LEARN_PARM*, KERNEL_PARM*);
 void print_doc(DOC*);
 void print_svector(SVECTOR*);
 int num_vectors;
@@ -11,14 +12,27 @@ int num_vectors;
  * Signature: (Ljava/util/List;[DLjava/lang/String;)V
  */
 JNIEXPORT void JNICALL Java_edu_temple_cla_wolfgang_jnisvmlight_SVMLight_SVMLearn
-  (JNIEnv *env, jobject thiz, jobject attributeSets, jdoubleArray lables, jstring modelFile) {
+  (JNIEnv *env, jobject thiz, jobject attributeSets, jdoubleArray lables, 
+        jint totDocs, jint totWords, jstring modelFile) {
+    LEARN_PARM learn_parm;
+    KERNEL_PARM kernel_parm;
     DOC **docs = build_docs(env, attributeSets);
-    for (int i = 0; i < num_vectors; ++i) {
-        print_doc(docs[i]);
+    double* target = (*env)->GetDoubleArrayElements(env, lables, NULL);
+    create_defaults(&learn_parm, &kernel_parm);
+    MODEL *model = (MODEL*)malloc(sizeof(MODEL));
+    svm_learn_classification(docs, target, totDocs, totWords, &learn_parm, 
+            &kernel_parm, NULL, model, NULL);
+    char* modelfile = (*env)->GetStringUTFChars(env, modelFile, NULL);
+    write_model(modelfile, model);
+    free_model(model, 0);
+    for (int i = 0; i < totDocs; i++) {
+        free_example(docs[i], 1);
     }
+    free(docs);
+    (*env)->ReleaseDoubleArrayElements(env, lables, target, 0);
 }
 
-DOC** build_docs(JNIEnv *env, jobject x) {
+DOC** build_docs(JNIEnv *env, jobject attributes) {
     jclass list_class = (*env)->FindClass(env, "Ljava/util/List;");
     jmethodID list_get = (*env)->GetMethodID(env, list_class, "get", "(I)Ljava/lang/Object;");
     jmethodID list_size = (*env)->GetMethodID(env, list_class, "size", "()I");
@@ -37,11 +51,10 @@ DOC** build_docs(JNIEnv *env, jobject x) {
     jmethodID int_value = (*env)->GetMethodID(env, integer_class, "intValue", "()I");
     jclass double_class = (*env)->FindClass(env, "Ljava/lang/Double;");
     jmethodID float_value = (*env)->GetMethodID(env, double_class, "floatValue", "()F");
-    num_vectors = (*env)->CallIntMethod(env, x, list_size);
+    num_vectors = (*env)->CallIntMethod(env, attributes, list_size);
     DOC **docs = (DOC**)malloc((num_vectors + 1)*sizeof(DOC*));
-    double *clables = (double*)malloc((num_vectors + 1)*sizeof(double));
     for (int i = 0; i < num_vectors; ++i) {
-        jobject training_case = (*env)->CallObjectMethod(env, x, list_get, i);
+        jobject training_case = (*env)->CallObjectMethod(env, attributes, list_get, i);
         int training_case_size = (*env)->CallIntMethod(env, training_case, map_size);
         WORD* words = (WORD*)malloc((training_case_size + 1)*sizeof(WORD));
         int j = 0;
@@ -77,6 +90,40 @@ void print_svector(SVECTOR* svect) {
     }
     fprintf(stderr,"\n");
 }
+
+void create_defaults(LEARN_PARM *learn_parm, KERNEL_PARM *kernel_parm) {
+  strcpy (learn_parm->predfile, "trans_predictions");
+  strcpy (learn_parm->alphafile, "");
+  learn_parm->biased_hyperplane=1;
+  learn_parm->sharedslack=0;
+  learn_parm->remove_inconsistent=0;
+  learn_parm->skip_final_opt_check=0;
+  learn_parm->svm_maxqpsize=10;
+  learn_parm->svm_newvarsinqp=0;
+  learn_parm->svm_iter_to_shrink=-9999;
+  learn_parm->maxiter=100000;
+  learn_parm->kernel_cache_size=40;
+  learn_parm->svm_c=0.0;
+  learn_parm->eps=0.1;
+  learn_parm->transduction_posratio=-1.0;
+  learn_parm->svm_costratio=1.0;
+  learn_parm->svm_costratio_unlab=1.0;
+  learn_parm->svm_unlabbound=1E-5;
+  learn_parm->epsilon_crit=0.001;
+  learn_parm->epsilon_a=1E-15;
+  learn_parm->compute_loo=0;
+  learn_parm->rho=1.0;
+  learn_parm->xa_depth=0;
+  kernel_parm->kernel_type=LINEAR;
+  kernel_parm->poly_degree=3;
+  kernel_parm->rbf_gamma=1.0;
+  kernel_parm->coef_lin=1;
+  kernel_parm->coef_const=1;
+  strcpy(kernel_parm->custom,"empty");
+  learn_parm->type=CLASSIFICATION;
+  learn_parm->svm_iter_to_shrink=2;
+}
+
 
 /*
  * Class:     edu_temple_cla_wolfgang_jnisvmlight_SVMLight

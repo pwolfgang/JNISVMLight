@@ -14,8 +14,23 @@ import java.util.SortedMap;
  */
 public class SVMLight {
 
-    public native void SVMLearn(List<SortedMap<Integer, Double>> attributeSets, double[] lables, String modelFile);
+    /**
+     * Method to learn an SVM model.
+     * @param attributeSets The training example attribute sets.
+     * @param lables The training labels.
+     * @param totWords The number of attributes (unique words)
+     * @param modelFile The name of the file where the model is to be written
+     *
+     */
+    public native void SVMLearn(List<SortedMap<Integer, Double>> attributeSets, 
+            double[] lables, int totDocs, int totWords, String modelFile);
     
+    /**
+     * Method to classify against an SVM model.
+     * @param modelFile The file containing the model
+     * @param attributeSets Attribute sets to be classified
+     * @return Array of classification results.
+     */
     public native double[] SVMClassify(String modelFile, List<SortedMap<Integer, Double>> attributeSets);
            
 }
