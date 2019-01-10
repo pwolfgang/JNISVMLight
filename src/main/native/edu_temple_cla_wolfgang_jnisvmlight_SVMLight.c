@@ -25,6 +25,7 @@ JNIEXPORT void JNICALL Java_edu_temple_cla_wolfgang_jnisvmlight_SVMLight_SVMLear
     char* modelfile = (*env)->GetStringUTFChars(env, modelFile, NULL);
     write_model(modelfile, model);
     free_model(model, 0);
+    (*env)->ReleaseStringUTFChars(env, modelFile, modelfile);
     for (int i = 0; i < totDocs; i++) {
         free_example(docs[i], 1);
     }
@@ -131,8 +132,25 @@ void create_defaults(LEARN_PARM *learn_parm, KERNEL_PARM *kernel_parm) {
  * Signature: (Ljava/lang/String;Ljava/util/List;)[D
  */
 JNIEXPORT jdoubleArray JNICALL Java_edu_temple_cla_wolfgang_jnisvmlight_SVMLight_SVMClassify
-  (JNIEnv *env, jobject thiz, jstring modelFile, jobject attributeSets) {
-    return NULL;
+  (JNIEnv *env, jobject thiz, jstring modelFile, jobject attributeSets, jint totDocs) {
+    char* modelfile = (*env)->GetStringUTFChars(env, modelFile, NULL);
+    MODEL* model;
+    model = read_model(modelfile);
+    (*env)->ReleaseStringUTFChars(env, modelFile, modelfile);
+    add_weight_vector_to_linear_model(model);
+    DOC **docs = build_docs(env, attributeSets);
+    double* results = (double*)malloc(totDocs * sizeof(double));
+    for (int i = 0; i < totDocs; ++i) {
+        results[i] = classify_example_linear(model, docs[i]);
+    }
+    jdoubleArray jResult = (*env)->NewDoubleArray(env, totDocs);
+    (*env)->SetDoubleArrayRegion(env, jResult, 0, totDocs, results);
+    free(results);
+    for (int i = 0; i < totDocs; i++) {
+        free_example(docs[i], 1);
+    }
+    free(docs);  
+    return jResult;
 }
 
 

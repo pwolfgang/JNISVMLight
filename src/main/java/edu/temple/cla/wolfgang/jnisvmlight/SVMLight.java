@@ -18,6 +18,7 @@ public class SVMLight {
      * Method to learn an SVM model.
      * @param attributeSets The training example attribute sets.
      * @param lables The training labels.
+     * @param totDocs The number of training cases
      * @param totWords The number of attributes (unique words)
      * @param modelFile The name of the file where the model is to be written
      *
@@ -29,8 +30,10 @@ public class SVMLight {
      * Method to classify against an SVM model.
      * @param modelFile The file containing the model
      * @param attributeSets Attribute sets to be classified
+     * @param totDocs The number of classification cases
      * @return Array of classification results.
      */
-    public native double[] SVMClassify(String modelFile, List<SortedMap<Integer, Double>> attributeSets);
+    public native double[] SVMClassify(String modelFile, 
+            List<SortedMap<Integer, Double>> attributeSets, int totDocs);
            
 }

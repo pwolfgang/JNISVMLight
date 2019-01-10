@@ -21,7 +21,7 @@ JNIEXPORT void JNICALL Java_edu_temple_cla_wolfgang_jnisvmlight_SVMLight_SVMLear
  * Signature: (Ljava/lang/String;Ljava/util/List;)[D
  */
 JNIEXPORT jdoubleArray JNICALL Java_edu_temple_cla_wolfgang_jnisvmlight_SVMLight_SVMClassify
-  (JNIEnv *, jobject, jstring, jobject);
+  (JNIEnv *, jobject, jstring, jobject, jint);
 
 #ifdef __cplusplus
 }
