@@ -15,8 +15,15 @@ import java.util.SortedMap;
  */
 public class SVMLight {
     static {
+        String libName;
+        String osName = System.getProperty("os.name");
+        if (osName.startsWith("Windows")) {
+            libName = "/jnisvmlight.dll";
+        } else {
+            libName = "/libjnisvmlight.so";
+        }
         try {
-            NativeUtils.loadLibraryFromJar("/jnisvmlight.dll");
+            NativeUtils.loadLibraryFromJar(libName);
         } catch (Exception ex) {
             throw new RuntimeException("Load of library failed", ex);
         }
