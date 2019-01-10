@@ -134,7 +134,7 @@
  
                     <linkerEndOptions>
                         <linkerEndOption>-lsvmlight</linkerEndOption>
-                        <linkerEndOption>-o ${project.build.directory}/${lib_name}</linkerEndOption>
+                        <linkerEndOption>-o src/main/resources/${lib_name}</linkerEndOption>
                     </linkerEndOptions>
                 </configuration>
  

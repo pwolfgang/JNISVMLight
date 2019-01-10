@@ -23,12 +23,6 @@ import org.junit.BeforeClass;
  */
 public class SVMLightTest {
 
-    @BeforeClass
-    public static void loadDll() {
-        System.err.println("java.library.path=" + System.getProperty("java.library.path"));
-        System.loadLibrary("jnisvmlight");
-    }
-
     public SVMLightTest() {
     }
 

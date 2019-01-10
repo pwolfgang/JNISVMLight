@@ -5,6 +5,7 @@
  */
 package edu.temple.cla.wolfgang.jnisvmlight;
 
+import cz.adamh.utils.NativeUtils;
 import java.util.List;
 import java.util.SortedMap;
 
@@ -13,6 +14,13 @@ import java.util.SortedMap;
  * @author Paul
  */
 public class SVMLight {
+    static {
+        try {
+            NativeUtils.loadLibraryFromJar("/jnisvmlight.dll");
+        } catch (Exception ex) {
+            throw new RuntimeException("Load of library failed", ex);
+        }
+    }
 
     /**
      * Method to learn an SVM model.
