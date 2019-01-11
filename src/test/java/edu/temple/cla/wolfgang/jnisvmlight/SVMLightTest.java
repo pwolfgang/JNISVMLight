@@ -15,7 +15,6 @@ import java.util.TreeMap;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
-import org.junit.BeforeClass;
 
 /**
  *
@@ -106,18 +105,9 @@ public class SVMLightTest {
              BufferedReader model = new BufferedReader(new FileReader(modelFile));
              BufferedReader expected = new BufferedReader(new StringReader(expectedModel));
         ) {
-            int lineNumber = 0;
-            String line1;
-            String line2;
-            while (((line1 = model.readLine())!= null) && ((line2 = expected.readLine()) != null)) {
-                if (!line1.equals(line2)) {
-                    System.out.println("Error at line " + lineNumber);
-                    System.out.println(line1);
-                    System.out.println(line2);
-                    return false;
-                }
-            }
-            return true;
+            Model model1 = Model.readModel(model);
+            Model model2 = Model.readModel(expected);
+            return (model1.equals(model2));
         } catch (IOException ioex) {
             System.out.println(ioex);
             return false;

@@ -31,6 +31,12 @@
  */
 package edu.temple.cla.wolfgang.jnisvmlight;
 
+import java.io.BufferedReader;
+import java.util.Arrays;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Class to represent an svm_light MODEL
  * @author Paul
@@ -44,5 +50,94 @@ public class Model {
   public int[]    index;        /* index from docnum to position in model */
   public int      totwords;     /* number of features */
   public int      totdoc;       /* number of training documents */
-  KernelParam     kernel_parm;  /* kernel */    
+  KernelParam     kernel_parm;  /* kernel */
+  double[]        linWeights;   /* weights for linear case using folding */
+  
+  public static Model readModel(BufferedReader in) {
+      Scanner scanner = new Scanner(in);
+      String line = scanner.nextLine();
+      Pattern pattern = Pattern.compile("SVM-light Version (.*)");
+      Matcher matcher = pattern.matcher(line);
+      if (matcher.matches()) {
+          String version = matcher.group(1);
+          if (!"V6.02".equals(version)) {
+              return null;
+          }
+      }
+      Model model = new Model();
+      model.kernel_parm = new KernelParam();
+      model.kernel_parm.kerneType = scanner.nextInt();
+      scanner.nextLine();
+      model.kernel_parm.polyDegree = scanner.nextInt();
+      scanner.nextLine();
+      model.kernel_parm.rbfGamma = scanner.nextDouble();
+      scanner.nextLine();
+      model.kernel_parm.coefLin = scanner.nextDouble();
+      scanner.nextLine();
+      model.kernel_parm.coefConst = scanner.nextDouble();
+      scanner.nextLine();
+      model.kernel_parm.custom = scanner.findInLine("[^#]*");
+      scanner.nextLine();
+      model.totwords = scanner.nextInt();
+      scanner.nextLine();
+      model.totdoc = scanner.nextInt();
+      scanner.nextLine();
+      model.sv_num = scanner.nextInt();
+      scanner.nextLine();
+      model.b = scanner.nextDouble();
+      scanner.nextLine();
+      model.supvec = new Doc[model.sv_num=1];
+      model.alpha = new double[model.sv_num-1];
+      model.index = null;
+      model.linWeights = null;
+      for (int i = 0; i < model.sv_num-1; i++) {
+          line = scanner.nextLine();
+          String[] tokens = line.split("\\s+");
+          model.alpha[i] = Double.parseDouble(tokens[0]);
+          Word[] words = new Word[tokens.length-1];
+          SVector[] sVector = new SVector[tokens.length-1];
+          for (int j = 0; j < words.length; j++) {
+              words[j] = parseWord(tokens[j+1]);
+              sVector[j] = new SVector(words, "", 1);
+          }
+          model.supvec[i] = new Doc(-1, 0, 0, 0, sVector);
+      }    
+      return model;    
+  }
+  
+  private static Word parseWord(String w) {
+      String[] parts = w.split(":");
+      int index = Integer.parseInt(parts[0]);
+      double weight = Double.parseDouble(parts[1]);
+      return new Word(index, (float)weight);
+  }
+  
+  @Override
+  public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null) return false;
+      if (this.getClass() == o.getClass()) {
+          Model other = (Model) o;
+          if (sv_num != other.sv_num
+                  || at_upper_bound != other.at_upper_bound
+                  || b != other.b
+                  || totwords != other.totwords
+                  || totdoc != other.totdoc
+                  || !kernel_parm.equals(other.kernel_parm))
+                  return false;
+           if (!compareAlphas(alpha, other.alpha)) return false;
+           return Arrays.equals(supvec, other.supvec);
+      } else {
+          return false;        
+      }
+  }
+  
+  private boolean compareAlphas(double[] d1, double[] d2) {
+      if (d1.length != d2.length) return false;
+      for (int i = 0; i < d1.length; i++) {
+          if (Math.abs(d1[i] - d2[i])/Math.abs(d1[i]) > 1e-6) return false;
+      }
+      return true;
+  }
+  
 }

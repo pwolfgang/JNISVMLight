@@ -1,5 +1,7 @@
 package edu.temple.cla.wolfgang.jnisvmlight;
 
+import java.util.Arrays;
+
 /*
  * Copyright (c) 2018, Temple University
  * All rights reserved.
@@ -65,5 +67,24 @@ public class Doc {
 				  higher, will have a factor of +1,
 				  the lower ranked one should have a
 				  factor of -1. */
+  
+  public Doc(int docnum, int querid, int slackid, double costfactor, SVector[] fvec) {
+      this.docnum = docnum;
+      this.queryid = querid;
+      this.slackid = slackid;
+      this.fVec = fvec;
+  }
+  
+  @Override
+  public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null) return false;
+      if (this.getClass() == o.getClass()) {
+          Doc other = (Doc)o;
+          return Arrays.equals(fVec, other.fVec);
+      } else {
+          return false;
+      }
+  }
   
 }

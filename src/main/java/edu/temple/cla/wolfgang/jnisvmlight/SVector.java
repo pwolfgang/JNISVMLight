@@ -67,6 +67,37 @@ public class SVector {
 				  NULL. */
   public double  factor;       /* Factor by which this feature vector
 				  is multiplied in the sum. */
+  
+  public SVector(Word[] words, String userDefined, double factor) {
+      this.words = words;
+      this.userdefined = userDefined;
+      this.factor = factor;
+      twonorm_sq = 0.0;
+      for (Word word : words) {
+          twonorm_sq += word.weight * word.weight;
+      }
+      next = null;
+      kernel_id = 0;
+  }
+  
+  @Override
+  public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null) return false;
+      if (this.getClass() == o.getClass()) {
+          SVector other = (SVector) o;
+          if (words.length != other.words.length) return false;
+          for (int i = 0; i < words.length; i++) {
+              if (words[i].wnum != other.words[i].wnum) return false;
+              if (Math.abs(words[i].weight - other.words[i].weight)/Math.abs(words[i].weight) > 1e-5) {
+                  return false;
+              }
+          }
+          return true;
+      } else {
+          return false;
+      }
+  }
     
     
 }

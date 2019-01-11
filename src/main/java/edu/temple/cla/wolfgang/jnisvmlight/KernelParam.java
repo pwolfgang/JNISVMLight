@@ -33,13 +33,37 @@ package edu.temple.cla.wolfgang.jnisvmlight;
 
 /**
  * Class to represent an svm_light KERNEL_PARAM
+ *
  * @author Paul
  */
 public class KernelParam {
-  public int    kerneType;   /* 0=linear, 1=poly, 2=rbf, 3=sigmoid, 4=custom */
-  public int    polyDegree;
-  public double  rbfGamma;
-  public double  coefLin;
-  public double  coefConst;
-  String custom;    /* for user supplied kernel */    
+
+    public int kerneType;
+    /* 0=linear, 1=poly, 2=rbf, 3=sigmoid, 4=custom */
+    public int polyDegree;
+    public double rbfGamma;
+    public double coefLin;
+    public double coefConst;
+    String custom;
+
+    /* for user supplied kernel */
+
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null) {
+            return false;
+        }
+        if (this.getClass() == o.getClass()) {
+            KernelParam other = (KernelParam) o;
+            return kerneType == other.kerneType
+                    && polyDegree == other.polyDegree
+                    && rbfGamma == other.rbfGamma
+                    && coefLin == other.coefLin
+                    && coefConst == other.coefConst;
+        } else {
+            return false;
+        }
+    }
 }
