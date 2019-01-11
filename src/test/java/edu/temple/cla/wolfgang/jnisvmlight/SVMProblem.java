@@ -35,8 +35,10 @@ import java.util.List;
 import java.util.SortedMap;
 
 /**
- *
- * @author Paul
+ * This class represents an SVMLib SVMProblem. It is used in testing to
+ * assist in parsing the training case and classification case input lines
+ * for testing.
+ * @author Paul Wolfgang
  */
 public class SVMProblem {
     

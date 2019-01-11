@@ -1,5 +1,5 @@
-/*
- * Copyright (c) 2018, Temple University
+/* 
+ * Copyright (c) 2019, Temple University
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,8 +38,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Class to represent an svm_light MODEL
- * @author Paul
+ * Class to represent an svm_light MODEL. This is only used in testing. Models
+ * are written to files by svm_learn and read by svm_classify. 
+ * @author Paul Wolfgang
  */
 public class Model {
   public int      sv_num;	

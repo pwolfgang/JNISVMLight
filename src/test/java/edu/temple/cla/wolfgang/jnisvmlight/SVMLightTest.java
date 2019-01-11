@@ -17,7 +17,11 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 /**
- *
+ * This is a very limited test of SVMLight. It generates a simple model and
+ * verifies that the generated model is as expected. It also calls svmClassify
+ * but the only verification is that the call does not throw an exception.
+ * SVMLight has been verified by comparing a large test case with the stand-
+ * alone version.
  * @author Paul
  */
 public class SVMLightTest {

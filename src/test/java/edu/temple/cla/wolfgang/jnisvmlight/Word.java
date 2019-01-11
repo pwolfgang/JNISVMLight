@@ -1,5 +1,5 @@
-/*
- * Copyright (c) 2018, Temple University
+/* 
+ * Copyright (c) 2019, Temple University
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,38 +32,16 @@
 package edu.temple.cla.wolfgang.jnisvmlight;
 
 /**
- * Class to represent an svm_light KERNEL_PARAM
- *
+ * Class to represent an svm_light WORD. This class is only used in testing.
  * @author Paul
  */
-public class KernelParam {
-
-    public int kerneType;
-    /* 0=linear, 1=poly, 2=rbf, 3=sigmoid, 4=custom */
-    public int polyDegree;
-    public double rbfGamma;
-    public double coefLin;
-    public double coefConst;
-    String custom;
-
-    /* for user supplied kernel */
-
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null) {
-            return false;
-        }
-        if (this.getClass() == o.getClass()) {
-            KernelParam other = (KernelParam) o;
-            return kerneType == other.kerneType
-                    && polyDegree == other.polyDegree
-                    && rbfGamma == other.rbfGamma
-                    && coefLin == other.coefLin
-                    && coefConst == other.coefConst;
-        } else {
-            return false;
-        }
+public class Word {
+    public int     wnum;   /*word number*/
+    public float   weight; /*word weight*/
+    
+    public Word() {};
+    public Word(int wnum, float weight) {
+        this.wnum = wnum;
+        this.weight = weight;
     }
 }

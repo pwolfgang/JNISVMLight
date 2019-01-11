@@ -1,5 +1,5 @@
-/*
- * Copyright (c) 2018, Temple University
+/* 
+ * Copyright (c) 2019, Temple University
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,7 +32,7 @@
 package edu.temple.cla.wolfgang.jnisvmlight;
 
 /**
- * Class to represent an svm_light SVECTOR
+ * Class to represent an svm_light SVECTOR. This class is only used in testing.
  * @author Paul
  */
 public class SVector {
